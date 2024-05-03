@@ -6,8 +6,8 @@
 
 struct matrice {
  double** tab; // pointeur vers les cases du tableau dynamique
- int n;    // longueur du tableau
- int p;  // largeur du tableau
+ int col;      // colonnes du tableau
+ int lig;      // lignes du tableau
 };
 typedef struct matrice matrice;
 
@@ -15,16 +15,22 @@ typedef struct matrice matrice;
 /* Création, conversion, suppression */
 
 /** Crée un tableau dynamique de longueur len initialisé à x.*/
-matrice* mat_create(int n, int p, double val);
+matrice* mat_create(int ligne, int colonne, double val);
+
+matrice* mat_create_identite(int taille);
+
+matrice* mat_create_random_int(int ligne, int colonne, int debut, int fin);
+
+matrice* mat_create_random_double(int ligne, int colonne, int debut, int fin);
 
 void mat_free(matrice* mat);
 
 
 /* Accesseurs */
 
-int mat_longueur(matrice* mat);
+int mat_ligne(matrice* mat);
 
-int mat_largeur(matrice* mat);
+int mat_colonne(matrice* mat);
 
 /* Mutateurs */
 
