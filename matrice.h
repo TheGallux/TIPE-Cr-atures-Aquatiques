@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <assert.h>
 #include <math.h>
+#include <time.h>
 
 struct matrice {
  double** tab; // pointeur vers les cases du tableau dynamique
@@ -10,6 +11,7 @@ struct matrice {
  int lig;      // lignes du tableau
 };
 typedef struct matrice matrice;
+
 
 
 /* Création, conversion, suppression */
@@ -21,7 +23,8 @@ matrice* mat_create_identite(int taille);
 
 matrice* mat_create_random_int(int ligne, int colonne, int debut, int fin);
 
-matrice* mat_create_random_double(int ligne, int colonne, int debut, int fin);
+
+matrice* mat_create_random_double(int ligne, int colonne, double debut, double fin);
 
 void mat_free(matrice* mat);
 

@@ -14,7 +14,7 @@ int main() {
 
     printf("%d %d\n", mat_ligne(mat1), mat_colonne(mat1));
 
-    matrice* mat2 = mat_create(5, 3, -3.0);
+    matrice* mat2 = mat_create_random_double(5, 3, 10, 20);
 
     mat_array_en_matrice(mat1, array1);
 

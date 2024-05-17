@@ -7,6 +7,7 @@
 
 /* Création, conversion, suppression */
 
+// Crée une matrice de taille (colonne X ligne) remplie de val.
 matrice* mat_create(int ligne, int colonne, double val) {
     /*
     (a1,1  a1,2  ......  a1,p)    
@@ -34,7 +35,7 @@ matrice* mat_create(int ligne, int colonne, double val) {
     return matr;
 }
 
-
+// Crée la matrice identitée.
 matrice* mat_create_identite(int taille) {
 
     matrice* id = mat_create(taille, taille, 0);
@@ -46,16 +47,49 @@ matrice* mat_create_identite(int taille) {
     return id;
 }
 
-/* TODO
 
-matrice* mat_create_random_int(int ligne, int colonne, int debut, int fin);
+// Crée une matrice d'entier aléatoire entre [debut, fin[. De taille colonne X ligne.
+matrice* mat_create_random_int(int ligne, int colonne, int debut, int fin) {
 
-matrice* mat_create_random_double(int ligne, int colonne, int debut, int fin);
+    assert(fin > debut);
+    srand(time(NULL));
+
+    matrice* mat = mat_create(ligne, colonne, 0); 
+
+    for (int i = 0; i < ligne; i++ ){ 
+        for (int j = 0; j < colonne; j++){
+            (mat->tab)[i][j] = (rand() % (fin - debut) + debut);
+        }
+    } 
+    
+    return mat;
+}
+
+// Créer la fonction aléatoire pour les doubles.
+double randfrom(double min, double max){
+    double range =(max - min);
+    double div = RAND_MAX / range;
+    return min + (rand() / div);
+}
+
+// Créer une matrice de double aléatoire entre [debut, fin[. De taille colonne X ligne.
+matrice* mat_create_random_double(int ligne, int colonne, double debut, double fin){
+    assert(fin > debut);
+    srand(time(NULL));
+
+    matrice* mat = mat_create(ligne, colonne, 0); 
+
+    for (int i = 0; i < ligne; i++ ){ 
+        for (int j = 0; j < colonne; j++){
+            (mat->tab)[i][j] = randfrom(debut, fin); 
+        }
+    } 
+    
+    return mat;
+}
 
 
-*/
-
-
+// Libère la matrice donnée.
 void mat_free(matrice* mat) {
 
     for (int i = 0; i < mat->lig; i++) {
@@ -65,13 +99,15 @@ void mat_free(matrice* mat) {
     free(mat);
 }
 
+
 /* Accesseurs */
 
+// Renvoie le nombre de colonnes d'une matrice donnée.
 int mat_colonne(matrice* mat) {
     return mat->col;
 }
 
-
+// Renvoie le nombre de lignes d'une matrice donnée.
 int mat_ligne(matrice* mat) {
     return mat->lig;
 }
@@ -79,10 +115,28 @@ int mat_ligne(matrice* mat) {
 
 /* Mutateurs */
 
+// Prends un argument un matrice de taille (colonne X ligne) et un array de longueur taille*colonne
+// 
+// Matrice :                        Array :
+// (a1,1  a1,2  ......  a1,p)       [| x1, x2, ..., x(n*p)|]
+// (a2,1  a2,2  ......      )
+// ( .     ..               )
+// ( .     ..               )
+// ( .     ..               )
+// (an,1  an,2  ....... an,p)
+//
+// On obtient la matrice : 
+//
+// (  x1    x2   ......   xp )
+// ( xp+1  xp+2  ......      )
+// (  .     ..               )
+// (  .     ..               )
+// (  .     ..               )
+// (  .     ..  .......  xn*p)
 void mat_array_en_matrice(matrice* mat, double* array) {
 
     // TODO: a voir comment arranger ça : 
-    //https://stackoverflow.com/questions/25680014/find-the-size-of-integer-array-received-as-an-argument-to-a-function-in-c
+    // https://stackoverflow.com/questions/25680014/find-the-size-of-integer-array-received-as-an-argument-to-a-function-in-c
     // assert((sizeof(array)/sizeof(double)) == (mat->n)*(mat->p));
     // voir metadonne de gcc array[-1]
     // ATTENTION : SE METTRE D'ACCORD VERSION GCC AVEC KEVEN
@@ -99,6 +153,7 @@ void mat_array_en_matrice(matrice* mat, double* array) {
 
 /* Misceleanous */
 
+// Affiche un array de double de taille donné.
 void arr_affiche(double array[], int taille) {
     printf("[");
     for (int i = 0; i < taille; i++) {
@@ -110,6 +165,7 @@ void arr_affiche(double array[], int taille) {
     printf("]\n");
 }
 
+// Affiche une matrice.
 void mat_affiche(matrice const* mat) {
 
     for (int i = 0; i < mat->lig; i++) {
@@ -139,17 +195,21 @@ matrice* mat_operation(matrice* mat1, matrice* mat2, double (*point_func)(double
     return mat3;
 }
 
+
 double somme(double a, double b) {
     return a + b;
 }
+
 
 matrice* mat_somme(matrice* mat1, matrice* mat2) {
     return mat_operation(mat1, mat2, &somme);
 }
 
+
 double difference(double a, double b) {
     return a - b;
 }
+
 
 matrice* mat_difference(matrice* mat1, matrice* mat2) {
     return mat_operation(mat1, mat2, &difference);
