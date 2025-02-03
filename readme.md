@@ -50,7 +50,4 @@ Ce projet combine l’intelligence artificielle et l’évolution génétique po
 
 ---
 
-**Auteur** : [Ton nom]  
-**Date de début** : [Date]  
-**Version actuelle** : [Numéro de version]
-
+**Auteur** : Clément CHOLLET
