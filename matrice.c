@@ -1,9 +1,5 @@
 #include "matrice.h"
 
-// gcc tmatrices.c matrice.c matrice.h -o exe -lm -Wall -Wextra -Wvla -Wall -Wextra -pedantic -fsanitize=address --std=c17
-
-// gcc tmatrices.c matrice.c matrice.h -o exe -lm -Wall -Wextra -Wvla -Wall -Wextra -pedantic --std=c17
-
 
 /* Création, conversion, suppression */
 
@@ -177,6 +173,7 @@ void mat_affiche(matrice const* mat) {
 
 /* Opérations */
 
+// A une fonction f et deux matrices de même taille M et N, associce f(M, N)
 matrice* mat_operation(matrice* mat1, matrice* mat2, double (*point_func)(double, double)) {
 
     // TODO: si les matrcies ne sont pas de même taille, je met un assert pour le moment
@@ -200,7 +197,7 @@ double somme(double a, double b) {
     return a + b;
 }
 
-
+// Renvoie la somme de deux matrices.
 matrice* mat_somme(matrice* mat1, matrice* mat2) {
     return mat_operation(mat1, mat2, &somme);
 }
@@ -211,12 +208,14 @@ double difference(double a, double b) {
 }
 
 
+// Renvoie la différence de deux matrices.
 matrice* mat_difference(matrice* mat1, matrice* mat2) {
     return mat_operation(mat1, mat2, &difference);
 }
 
 
 
+// Renvoie le produit de deux matrices.
 matrice* mat_produit(matrice* mat1, matrice* mat2) {
 
     assert(mat2->col == mat1->lig);
@@ -234,5 +233,29 @@ matrice* mat_produit(matrice* mat1, matrice* mat2) {
     return mat;
 }
 
+// Pour tout entier naturel n, renvoie M^n
+matrice* mat_puissance(matrice* mat, int n) {
+    if (n == 0) {
+        return mat_create_identite(mat_ligne(mat));
+    }
+    if (n == 1) {
+        return mat;
+    }
+    matrice* matn = mat_produit(mat, mat);
+    for (int i = 0; i < n - 2; i++) {
+        matn = mat_produit(matn, mat);
+    }
+
+    return matn;
+}
 
 
+matrice* mat_sigmoide(matrice* mat) {
+    matrice* mat2 = mat_create(mat->lig, mat->col, 0);
+
+    for (int i = 0; i < mat->lig; i++) {
+        mat2->tab[0][i] = 1.0 / (1.0 + exp(-mat->tab[0][i]));
+    }
+
+    return mat2;
+}

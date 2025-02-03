@@ -11,12 +11,17 @@ all: run
 
 run: $(EXEC)
 	./$(EXEC)
+	rm -f *.cmx *.cmi *.o *.cmo *.out exe
 
 exec: $(EXEC)
 
 $(EXEC): $(OBJ) $(LINK)
 	gcc -o $@ $^ $(CFLAGS)
 	@echo "Compilation terminée."
+
+clean: 
+	rm -f *.cmx *.cmi *.o *.cmo *.out *.txt exec
+
 
 %.o: %.c
 	gcc -o $@ -c $< $(CFLAGS)
